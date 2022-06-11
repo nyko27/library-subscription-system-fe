@@ -1,0 +1,35 @@
+.header {
+    margin-left: 7%;
+    margin-top: 0.5%;
+
+}
+
+.home-link {
+    text-decoration: none;
+}
+
+.title {
+    font-size: 2.3rem;
+    color: lightgray
+}
+
+.nav-link {
+    margin-left: 400px;
+    margin-right: 200px;
+    text-decoration: none;
+    font-size: 1.25rem;
+}
+
+
+.nav-link:hover {
+    color: FloralWhite;
+}
+
+.nav-link_active {
+    color: FloralWhite;
+}
+
+.nav-dropdown {
+    margin-left: 100px;
+    margin-top: 5px;
+}
