@@ -17,5 +17,5 @@ export async function updateBookById(id, updatedBook) {
 }
 
 export async function deleteBookById(id) {
-    return (await axiosInstance.delete(`/books/${id}`)).data;
+    return (await axiosInstance.delete(`/books/${id}`)).status;
 }
