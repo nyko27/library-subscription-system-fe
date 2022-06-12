@@ -18,7 +18,7 @@ export default function Header() {
                     </Link>
 
 
-                    <NavLink to="/add" className={isActive => "nav-link" + (!isActive ? "_active" : "")} exact={true}>
+                    <NavLink to="/add-book" className={isActive => "nav-link" + (!isActive ? "_active" : "")} exact={true}>
                         Add new book
                     </NavLink>
 
