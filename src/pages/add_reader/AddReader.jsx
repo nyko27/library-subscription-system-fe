@@ -8,10 +8,10 @@ import "./AddReader.css";
 import ErrorWindow from '../../components/error_window/ErrorWindow';
 
 export default function AddReader() {
-    const [name, setName] = useState('somaname');
-    const [surname, setSurame] = useState('somasurname');
-    const [phoneNumber, setPhoneNumber] = useState('+388347598345');
-    const [address, setAddress] = useState('somaaddress');
+    const [name, setName] = useState('');
+    const [surname, setSurame] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
