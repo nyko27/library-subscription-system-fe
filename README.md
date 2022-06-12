@@ -15,7 +15,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 1. Install all dependecies by runnig `npm install` command in the project root  
 directory (library-subscription-system-fe/ level).
-2. Run `npm start` command int the same directory to run app in development mode.
+2. Run `npm start` command in the same directory to run app in development mode.
 
 ## Available Scripts
 

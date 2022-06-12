@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./CardItem.css";
 
 
-function CardItem(book) {
+export default function CardItem(book) {
     return <Card className="card">
         <Card.Img className="card-img" src="https://thumbs.dreamstime.com/b/open-book-19523116.jpg" variant="top" />
         <Card.Body>
@@ -34,5 +34,4 @@ function CardItem(book) {
     </Card>;
 }
 
-export default CardItem;
 
