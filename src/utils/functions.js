@@ -8,9 +8,7 @@ export function objToJson(obj) {
             delete obj[key];
         };
     }
-
     const jsonData = JSON.stringify(obj);
-    console.log(jsonData);
 
     return jsonData;
 }
