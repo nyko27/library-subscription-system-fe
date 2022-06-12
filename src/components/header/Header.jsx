@@ -1,10 +1,11 @@
 import React from 'react';
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Header.css";
 
-export default function Header(props) {
+
+
+export default function Header() {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -27,7 +28,7 @@ export default function Header(props) {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="/#link to add user">Create new</Dropdown.Item>
+                            <Dropdown.Item href="/add-reader">Create new</Dropdown.Item>
                             <Dropdown.Item href="/#link to view user rents">View rents</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
