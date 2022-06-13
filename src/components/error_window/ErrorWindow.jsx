@@ -14,7 +14,7 @@ export default function ErrorWindow(props) {
 
                 <Modal.Header >
                     <Modal.Title>
-                        Oops, something went wrong...
+                        {props.message}
                     </Modal.Title>
                 </Modal.Header>
 

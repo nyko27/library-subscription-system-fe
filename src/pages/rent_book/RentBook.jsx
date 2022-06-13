@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link } from "react-router-dom";
-import { addUser } from '../../utils/api/user_api';
+import { Link, useParams } from "react-router-dom";
+import { getBookById } from '../../utils/api/book_api';
+import { requestRent, getUserByPhoneNumber } from '../../utils/api/user_api';
 import { checkFormsFilling, objToJson } from '../../utils/functions';
-import "./AddReader.css";
 import ErrorWindow from '../../components/error_window/ErrorWindow';
+import "./RentBook.css";
 
-export default function AddReader() {
-    const [name, setName] = useState('');
-    const [surname, setSurame] = useState('');
+
+export default function RentBook() {
+    const { id } = useParams();
+
+    const [bookTitle, setBookTitle] = useState('');
+
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [address, setAddress] = useState('');
+    const [expectedRentEndDate, setExpectedRentEndDate] = useState('');
+    const [paymentType, setPaymentType] = useState('card');
 
     const [message, setMessage] = useState('');
 
@@ -22,19 +27,27 @@ export default function AddReader() {
         setMessage(messageForUser);
     };
 
+    useEffect(() => {
+        (async () => {
+            const bookForRent = await getBookById(id);
+            setBookTitle(bookForRent.title);
+        })();
+    }, []);
 
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const formsData = { name, surname, phoneNumber, address, "reader_category_id": 1 };
+        const formsData = { libraryItemId: id, expectedRentEndDate, paymentType };
         if (!(checkFormsFilling(formsData))) {
             handleShow("Oops, something went wrong...");
         } else {
-            const newReader = objToJson(formsData);
-            const response = await addUser(newReader);
+            const bookRent = objToJson(formsData);
+            const user = await getUserByPhoneNumber(phoneNumber);
+            const response = await requestRent(user.id, bookRent);
 
-            if (response.status === 201) {
-                handleShow("Reader was added to library!");
+            if (response.status === 200) {
+                handleShow(`You successfully rented "${bookTitle}" book!
+                Expected rent price is ${response.data["rent_price"]}`);
             } else {
                 handleShow("Oops, something went wrong...");
             }
@@ -52,26 +65,9 @@ export default function AddReader() {
                     </Link>
                 </div>
                 <div className="form-wrapper">
-                    <h2 className="form-title">Add a new reader</h2>
+                    <h2 className="form-title">Rent the book</h2>
+                    <h2 className="form-title">"{`${bookTitle}`}"</h2>
                     <Form>
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                type="text"
-                                placeholder="Enter name" />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Surname</Form.Label>
-                            <Form.Control
-                                value={surname}
-                                onChange={(e) => setSurame(e.target.value)}
-                                type="text"
-                                placeholder="Enter surname" />
-                        </Form.Group>
-
                         <Form.Group className="mb-3" >
                             <Form.Label>Phone number</Form.Label>
                             <Form.Control
@@ -82,12 +78,21 @@ export default function AddReader() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" >
-                            <Form.Label>Address</Form.Label>
+                            <Form.Label>Expected end date of rent</Form.Label>
                             <Form.Control
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                type="text"
-                                placeholder="Enter address" />
+                                value={expectedRentEndDate}
+                                onChange={(e) => setExpectedRentEndDate(e.target.value)}
+                                type="date"
+                                placeholder="Enter expected end date of rent" />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Payment type</Form.Label>
+                            <Form.Select aria-label="Default select example"
+                                onChange={(e) => setPaymentType(e.target.value)}>
+                                <option value='card'>Card</option>
+                                <option value='bank_account'>Bank account</option>
+                            </Form.Select>
                         </Form.Group>
 
                         <Button
@@ -105,4 +110,3 @@ export default function AddReader() {
         </>
     );
 }
-

@@ -1,3 +1,5 @@
+import { getUsers } from "./api/user_api";
+
 const camelToSnakeCase = str => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 
 export function objToJson(obj) {
@@ -6,9 +8,19 @@ export function objToJson(obj) {
         if (newKey !== key) {
             obj[newKey] = obj[key];
             delete obj[key];
-        };
+        }
     }
-    const jsonData = JSON.stringify(obj);
-
-    return jsonData;
+    return obj;
 }
+
+export function checkFormsFilling(obj) {
+    for (const key in obj) {
+        if (obj[key] === "") {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+

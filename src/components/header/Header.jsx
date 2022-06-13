@@ -29,7 +29,7 @@ export default function Header() {
 
                         <Dropdown.Menu>
                             <Dropdown.Item href="/add-reader">Create new</Dropdown.Item>
-                            <Dropdown.Item href="/#link to view user rents">View rents</Dropdown.Item>
+                            <Dropdown.Item href="/user-rents/">View rents</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
 
