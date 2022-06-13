@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { addRent } from '../../utils/api/rent_api';
 import { getBookById } from '../../utils/api/book_api';
-import { handleSubmit } from '../../utils/functions';
+import { checkFormsFilling, objToJson } from '../../utils/functions';
 import ErrorWindow from '../../components/error_window/ErrorWindow';
 import "./RentBook.css";
 
@@ -18,11 +18,14 @@ export default function RentBook() {
     const [expectedRentEndDate, setExpectedRentEndDate] = useState('');
     const [paymentType, setPaymentType] = useState('card');
 
+    const [message, setMessage] = useState('');
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const navigate = useNavigate();
+    const handleShow = (messageForUser) => {
+        setShow(true);
+        setMessage(messageForUser);
+    };
 
     useEffect(() => {
         (async () => {
@@ -31,10 +34,22 @@ export default function RentBook() {
         })();
     }, []);
 
-    async function handleSubmitButton(e) {
-        await handleSubmit(e, {
-            libraryItemId: id, phoneNumber, expectedRentEndDate, paymentType
-        }, addRent, navigate, handleShow, "/");
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const formsData = { phoneNumber, expectedRentEndDate, paymentType };
+        if (!(checkFormsFilling(formsData))) {
+            handleShow("Oops, something went wrong...");
+        } else {
+            const bookRent = objToJson(formsData);
+            const response = await addRent(bookRent);
+
+            if (response.status === 201) {
+                handleShow(`You successfully rented ${bookTitle} book!`);
+            } else {
+                handleShow("Oops, something went wrong...");
+            }
+        }
     }
 
     return (
@@ -56,7 +71,7 @@ export default function RentBook() {
                             <Form.Control
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
-                                type="tel"
+                                type="number"
                                 placeholder="Enter phone number" />
                         </Form.Group>
 
@@ -79,7 +94,7 @@ export default function RentBook() {
                         </Form.Group>
 
                         <Button
-                            onClick={async (e) => { await handleSubmitButton(e) }}
+                            onClick={async (e) => { await handleSubmit(e) }}
                             variant="outline-dark"
                             type="submit"
                             className="submit-button">
@@ -88,7 +103,7 @@ export default function RentBook() {
                     </Form>
                 </div>
             </div>
-            <ErrorWindow show={show} handleClose={handleClose}>
+            <ErrorWindow show={show} handleClose={handleClose} message={message}>
             </ErrorWindow>
         </>
     );

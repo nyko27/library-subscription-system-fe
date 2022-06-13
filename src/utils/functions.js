@@ -1,4 +1,3 @@
-
 const camelToSnakeCase = str => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 
 export function objToJson(obj) {
@@ -9,8 +8,7 @@ export function objToJson(obj) {
             delete obj[key];
         }
     }
-
-    return JSON.stringify(obj);
+    return obj;
 }
 
 export function checkFormsFilling(obj) {
@@ -19,23 +17,6 @@ export function checkFormsFilling(obj) {
             return false;
         }
     }
-
     return true;
 }
 
-export async function handleSubmit(e, formsData, apiMethod, navigate, handleShow, redirectLink) {
-    e.preventDefault();
-
-    if (!(checkFormsFilling(formsData))) {
-        handleShow();
-    } else {
-        const newObj = objToJson(formsData);
-        const response = await apiMethod(newObj);
-
-        if (response.status === 200) {
-            navigate(redirectLink);
-        } else {
-            handleShow();
-        }
-    }
-}

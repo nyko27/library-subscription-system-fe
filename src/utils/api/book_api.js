@@ -1,7 +1,7 @@
 import axiosInstance from "./axios_instance";
 
 export async function getBooks() {
-    return (await (await axiosInstance.get(`/books`)).data);
+    return (await (await axiosInstance.get(`/books/`)).data);
 }
 
 export async function getBookById(id) {

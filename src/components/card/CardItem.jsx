@@ -14,8 +14,8 @@ export default function CardItem(book) {
 
             <Card.Text>Author: {book.author}</Card.Text>
             <Card.Text>Genre: {book.genre}</Card.Text>
-            <Card.Text>Piedge price: {book.pledge_price}</Card.Text>
-            <Card.Text>Quantity: {book.quantity}</Card.Text>
+            <Card.Text>Pledge price: {book.library_item.pledge_price}</Card.Text>
+            <Card.Text>Quantity: {book.library_item.quantity}</Card.Text>
 
             <Link to={`/rent-book/${book.id}`}>
                 <Button className="card-button" variant="outline-success">

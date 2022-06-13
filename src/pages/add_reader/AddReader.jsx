@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { addUser } from '../../utils/api/user_api';
-import { handleSubmit } from '../../utils/functions';
+import { checkFormsFilling, objToJson } from '../../utils/functions';
 import "./AddReader.css";
 import ErrorWindow from '../../components/error_window/ErrorWindow';
 
@@ -13,15 +13,32 @@ export default function AddReader() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
 
+    const [message, setMessage] = useState('');
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = (messageForUser) => {
+        setShow(true);
+        setMessage(messageForUser);
+    };
 
-    const navigate = useNavigate();
 
-    async function handleSubmitButton(e) {
-        await handleSubmit(e, { name, surname, phoneNumber, address },
-            addUser, navigate, handleShow, "/");
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const formsData = { name, surname, phoneNumber, address };
+        if (!(checkFormsFilling(formsData))) {
+            handleShow("Oops, something went wrong...");
+        } else {
+            const newReader = objToJson(formsData);
+            const response = await addUser(newReader);
+
+            if (response.status === 201) {
+                handleShow("Reader was added to library!");
+            } else {
+                handleShow("Oops, something went wrong...");
+            }
+        }
     }
 
     return (
@@ -60,7 +77,7 @@ export default function AddReader() {
                             <Form.Control
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
-                                type="tel"
+                                type="number"
                                 placeholder="Enter phone number" />
                         </Form.Group>
 
@@ -74,7 +91,7 @@ export default function AddReader() {
                         </Form.Group>
 
                         <Button
-                            onClick={async (e) => { await handleSubmitButton(e) }}
+                            onClick={async (e) => { await handleSubmit(e) }}
                             variant="outline-dark"
                             type="submit"
                             className="submit-button">
@@ -83,7 +100,7 @@ export default function AddReader() {
                     </Form>
                 </div>
             </div>
-            <ErrorWindow show={show} handleClose={handleClose}>
+            <ErrorWindow show={show} handleClose={handleClose} message={message}>
             </ErrorWindow>
         </>
     );
