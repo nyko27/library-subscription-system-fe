@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Button, Col, Row } from "react-bootstrap";
 import { Link, } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
@@ -6,7 +6,7 @@ import { getUserRents, getUserByPhoneNumber } from '../../utils/api/user_api';
 import "./UserRents.css";
 
 export default function UserRents(props) {
-    const [phoneNumber, setPhoneNumber] = useState('324534');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [rents, setRents] = useState([]);
 
     async function handleSubmit(e) {
