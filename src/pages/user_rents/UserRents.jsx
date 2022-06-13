@@ -5,6 +5,17 @@ import Form from 'react-bootstrap/Form';
 import { getUserRents, getUserByPhoneNumber } from '../../utils/api/user_api';
 import "./UserRents.css";
 
+const СompletedRentHendler = (currentRent) => (
+    !(currentRent.rent_end_date)
+        ?
+        <Link to={`/rent-return/${currentRent.id}`}>
+            <Button variant="outline-success" className="return-button">
+                Return
+            </Button>
+        </Link >
+        : <h4>Book's already returned</h4>
+);
+
 export default function UserRents(props) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [rents, setRents] = useState([]);
@@ -66,11 +77,7 @@ export default function UserRents(props) {
                             </Col>
 
                             <Col style={{ display: "flex" }}>
-                                <Link to={`/rent-return/${rent.id}`}>
-                                    <Button variant="outline-success" className="return-button">
-                                        Return
-                                    </Button>
-                                </Link >
+                                {СompletedRentHendler(rent)}
                             </Col>
                         </Row>
                     </Card.Body>

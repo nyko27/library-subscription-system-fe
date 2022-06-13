@@ -23,3 +23,7 @@ export async function deleteRentById(rentId) {
 export async function getLibraryFinancialReport() {
     return (await axiosInstance.get(`/rents/summarize`)).data;
 }
+
+export async function rentReturn(rentId, paymentType) {
+    return (await axiosInstance.post(`/rents/${rentId}:return`, paymentType));
+}
