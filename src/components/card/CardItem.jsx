@@ -17,19 +17,11 @@ export default function CardItem(book) {
             <Card.Text>Piedge price: {book.pledge_price}</Card.Text>
             <Card.Text>Quantity: {book.quantity}</Card.Text>
 
-            <div className="buttons-container">
-                <Link to={`/books/${book.id}`}>
-                    <Button className="card-button" variant="outline-dark">
-                        View more
-                    </Button>
-                </Link>
-
-                <Link to={"/#link to form of rent creation"}>
-                    <Button className="card-button" variant="outline-success">
-                        Rent
-                    </Button>
-                </Link>
-            </div>
+            <Link to={`/rent-book/${book.id}`}>
+                <Button className="card-button" variant="outline-success">
+                    Rent
+                </Button>
+            </Link>
         </Card.Body>
     </Card>;
 }

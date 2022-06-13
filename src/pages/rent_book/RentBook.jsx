@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link, useNavigate } from "react-router-dom";
-import { addUser } from '../../utils/api/user_api';
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { addRent } from '../../utils/api/rent_api';
+import { getBookById } from '../../utils/api/book_api';
 import { handleSubmit } from '../../utils/functions';
-import "./AddReader.css";
 import ErrorWindow from '../../components/error_window/ErrorWindow';
+import "./RentBook.css";
 
-export default function AddReader() {
-    const [name, setName] = useState('');
-    const [surname, setSurame] = useState('');
+
+export default function RentBook() {
+    const { id } = useParams();
+
+    const [bookTitle, setBookTitle] = useState('');
+
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [address, setAddress] = useState('');
+    const [expectedRentEndDate, setExpectedRentEndDate] = useState('');
+    const [paymentType, setPaymentType] = useState('card');
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -19,9 +24,17 @@ export default function AddReader() {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        (async () => {
+            const bookForRent = await getBookById(id);
+            setBookTitle(bookForRent.title);
+        })();
+    }, []);
+
     async function handleSubmitButton(e) {
-        await handleSubmit(e, { name, surname, phoneNumber, address },
-            addUser, navigate, handleShow, "/");
+        await handleSubmit(e, {
+            libraryItemId: id, phoneNumber, expectedRentEndDate, paymentType
+        }, addRent, navigate, handleShow, "/");
     }
 
     return (
@@ -35,26 +48,9 @@ export default function AddReader() {
                     </Link>
                 </div>
                 <div className="form-wrapper">
-                    <h2 className="form-title">Add a new reader</h2>
+                    <h2 className="form-title">Rent the book</h2>
+                    <h2 className="form-title">"{`${bookTitle}`}"</h2>
                     <Form>
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                type="text"
-                                placeholder="Enter name" />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Surname</Form.Label>
-                            <Form.Control
-                                value={surname}
-                                onChange={(e) => setSurame(e.target.value)}
-                                type="text"
-                                placeholder="Enter surname" />
-                        </Form.Group>
-
                         <Form.Group className="mb-3" >
                             <Form.Label>Phone number</Form.Label>
                             <Form.Control
@@ -65,12 +61,21 @@ export default function AddReader() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" >
-                            <Form.Label>Address</Form.Label>
+                            <Form.Label>Expected end date of rent</Form.Label>
                             <Form.Control
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                type="text"
-                                placeholder="Enter address" />
+                                value={expectedRentEndDate}
+                                onChange={(e) => setExpectedRentEndDate(e.target.value)}
+                                type="date"
+                                placeholder="Enter expected end date of rent" />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Payment type</Form.Label>
+                            <Form.Select aria-label="Default select example"
+                                onChange={(e) => setPaymentType(e.target.value)}>
+                                <option value='card'>Card</option>
+                                <option value='bank_account'>Bank account</option>
+                            </Form.Select>
                         </Form.Group>
 
                         <Button
@@ -88,4 +93,3 @@ export default function AddReader() {
         </>
     );
 }
-

@@ -9,11 +9,11 @@ export async function getUserById(id) {
 }
 
 export async function addUser(newUser) {
-    return (await axiosInstance.post("/users", newUser)).data;
+    return (await axiosInstance.post("/users/", newUser));
 }
 
 export async function updateUserById(id, updatedUser) {
-    return (await axiosInstance.put(`/users/${id}`, updatedUser)).data;
+    return (await axiosInstance.put(`/users/${id}`, updatedUser));
 }
 
 export async function deleteUserById(id) {
