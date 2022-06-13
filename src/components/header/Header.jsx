@@ -40,7 +40,7 @@ export default function Header() {
 
                         <Dropdown.Menu>
                             <Dropdown.Item href="/library-report">General</Dropdown.Item>
-                            <Dropdown.Item href="#/link to user's financial report">User specific</Dropdown.Item>
+                            <Dropdown.Item href="/user-report">User specific</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
 
