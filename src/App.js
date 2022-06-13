@@ -7,6 +7,7 @@ import AddBook from "./pages/add_book/AddBook";
 import RentBook from "./pages/rent_book/RentBook";
 import LibraryReport from "./pages/library_report/LibraryReport";
 import UserReport from "./pages/user_report/UserReport";
+import ReturnBook from "./pages/return_book/ReturnBook";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/rent-book/:id/" element={<RentBook />} />
           <Route path="/library-report" element={<LibraryReport />} />
           <Route path="/user-report" element={<UserReport />} />
+          <Route path="/rent-return/:id" element={<ReturnBook />} />
         </Routes>
       </BrowserRouter>
     </Fragment>

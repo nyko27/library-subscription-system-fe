@@ -21,7 +21,7 @@ export async function deleteUserById(id) {
 }
 
 export async function getUserRents(id) {
-    return (await axiosInstance.get(`/users/${id}/rents/`));
+    return (await axiosInstance.get(`/users/${id}/rents`));
 }
 
 export async function getUserByPhoneNumber(phoneNumber) {
