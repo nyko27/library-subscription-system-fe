@@ -5,6 +5,7 @@ import Home from "./pages/home/Home";
 import AddReader from "./pages/add_reader/AddReader";
 import AddBook from "./pages/add_book/AddBook";
 import RentBook from "./pages/rent_book/RentBook";
+import UserRents from "./pages/user_rents/UserRents";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/add-reader/" element={<AddReader />} />
           <Route path="/add-book/" element={<AddBook />} />
           <Route path="/rent-book/:id/" element={<RentBook />} />
+          <Route path="/user-rents/" element={<UserRents />} />
         </Routes>
       </BrowserRouter>
     </Fragment>

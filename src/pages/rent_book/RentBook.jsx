@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link, useParams } from "react-router-dom";
-import { addRent } from '../../utils/api/rent_api';
 import { getBookById } from '../../utils/api/book_api';
+import { requestRent, getUserByPhoneNumber } from '../../utils/api/user_api';
 import { checkFormsFilling, objToJson } from '../../utils/functions';
 import ErrorWindow from '../../components/error_window/ErrorWindow';
 import "./RentBook.css";
@@ -37,15 +37,17 @@ export default function RentBook() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const formsData = { phoneNumber, expectedRentEndDate, paymentType };
+        const formsData = { libraryItemId: id, expectedRentEndDate, paymentType };
         if (!(checkFormsFilling(formsData))) {
             handleShow("Oops, something went wrong...");
         } else {
             const bookRent = objToJson(formsData);
-            const response = await addRent(bookRent);
+            const user = await getUserByPhoneNumber(phoneNumber);
+            const response = await requestRent(user.id, bookRent);
 
-            if (response.status === 201) {
-                handleShow(`You successfully rented ${bookTitle} book!`);
+            if (response.status === 200) {
+                handleShow(`You successfully rented "${bookTitle}" book!
+                Expected rent price is ${response.data["rent_price"]}`);
             } else {
                 handleShow("Oops, something went wrong...");
             }

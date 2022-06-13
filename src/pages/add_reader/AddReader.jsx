@@ -26,7 +26,7 @@ export default function AddReader() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const formsData = { name, surname, phoneNumber, address };
+        const formsData = { name, surname, phoneNumber, address, "reader_category_id": 1 };
         if (!(checkFormsFilling(formsData))) {
             handleShow("Oops, something went wrong...");
         } else {
