@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+## Set-up project
+
+1. _`.env`_ file should be on `library-subscription-system-fe/` level.
+2. _`.env`_ content:
+    ```
+    REACT_APP_API_URL={YOUR_API_URL}
+    ```
+
+## Run project
+
+1. Install all dependecies by runnig `npm install` command in the project root  
+directory (library-subscription-system-fe/ level).
+2. Run `npm start` command in the same directory to run app in development mode.
+
 ## Available Scripts
 
 In the project directory, you can run:
